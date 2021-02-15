@@ -4,46 +4,53 @@
 * [Documentation Standards](introduction/documentation-standards.md)
 
 ## Standard Responses
-*
- * [Success Response](standard-responses/success-response.md)
- * [Error Response](standard-responses/error-response.md)
+* [Success Response](standard-responses/success-response.md)
+* [Error Response](standard-responses/error-response.md)
 
 ## Authentication
-*
- * [Authentication](authentication/authentication.md)
+* [Authentication](authentication/authentication.md)
 
 ## Units
-*
- * [Units](units/units.md)
+* [Units](units/units.md)
 
 ## Environment Variables
-*
- * [Environment Variables](environment-variables/environment-variables.md)
+* [Environment Variables](environment-variables/environment-variables.md)
 
 ## Consensus
-*
- * [/consensus [GET]](consensus/consensus-get.md)
- * [/consensus/blocks [GET]](consensus/consensus-blocks-get.md)
- * [/consensus/subscribe/:id [GET]](consensus/consensussubscribe-id-get.md)
- * [/consensus/validate/transactionset [POST]](consensus/consensus-validate-transactionset-post.md)
+* [/consensus [GET]](consensus/consensus-get.md)
+* [/consensus/blocks [GET]](consensus/consensus-blocks-get.md)
+* [/consensus/subscribe/:id [GET]](consensus/consensussubscribe-id-get.md)
+* [/consensus/validate/transactionset [POST]](consensus/consensus-validate-transactionset-post.md)
 
 ## Daemon
-*
- * [How can I contribute to Uplo?](contributing/how-can-i-contribute-to-uplo.md)
- * [Where can I learn more about Uplo?](contributing/learn-more.md)
+* [/daemon/alerts [GET]](daemon/daemon-alerts-get.md)
+* [/daemon/constants [GET]](daemon/daemon-constants-get.md)
+* [/daemon/settings [GET]](daemon/daemon-settings-get.md)
+* [/daemon/settings [POST]](daemon/daemon-settings-post.md)
+* [/daemon/stack [GET]](daemon/daemon-stack-get.md)
+* [/daemon/stop [GET]](daemon/daemon-stop-get.md)
+* [/daemon/update [GET]](daemon/daemon-update-get.md)
+* [/daemon/update [POST]](daemon/daemon-update-post.md)
+* [/daemon/version [GET]](daemon/daemon-version-get.md)
 
 ## FeeManager
-*
- * [What are UploFunds?](uplofunds/what-are-uplofunds.md)
- * [How do I buy UploFunds?](uplofunds/how-do-i-buy-uplofunds.md)
- * [How to cash out UploFunds](uplofunds/how-to-cash-out-uplofunds.md)
+* [/feemanager [GET]](feemanager/feemanager-get.md)
+* [/feemanager/add [POST]](feemanager/feemanager-add-post.md)
+* [/feemanager/cancel [POST]](feemanager/feemanager-cancel-post.md)
+* [/feemanager/paidfees [GET]](feemanager/feemanager-paidfees-get.md)
+* [/feemanager/pendingfees [GET]](feemanager/feemanager-pendingfees-get.md)
 
 ## Gateway
-*
- * [Listing UploCoin on your exchange](uplo-integrations/listing-uplocoin-on-your-exchange.md)
- * [Brand guidelines for Uplo in your project or site](uplo-integrations/brand-guidelines-for-uplo-in-your-project-or-site.md)
+* [/gateway [GET]](gateway/gateway-get.md)
+* [/gateway [POST]](gateway/gateway-post.md)
+* [/gateway/bandwidth [GET]](gateway/gateway-bandwidth-get.md)
+* [/gateway/conect/:netaddress [POST]](gateway/gateway-connect-netaddress-post.md)
+* [/gateway/disconnect/:netaddress [POST]](gateway/gateway-disconnect-netaddress-post.md)
+* [/gateway/blocklist [GET]](gateway/gateway-blocklist-get.md)
+* [/gateway/blocklist [POST]](gateway/gateway-blocklist-post.md)
 
 ## Host
+* [/host [GET]](host/host-get.md)
 
 ## HostDB
 
