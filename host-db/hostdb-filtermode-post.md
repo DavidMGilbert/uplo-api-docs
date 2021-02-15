@@ -1,36 +1,42 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /hostdb/filtermode [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" --user "":<apipassword> --data '{"filtermode" : "whitelist","hosts" : ["ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef","ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef","ed25519:1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef"]}' "localhost:8480/hostdb/filtermode"
+```  
+```go
+curl -A "Uplo-Agent" --user "":<apipassword> --data '{"filtermode" : "disable"}' "localhost:8480/hostdb/filtermode"
 ```
+Lets you enable and disable a filter mode for the hostdb. Currently the two
+modes supported are `blacklist` mode and `whitelist` mode. In `blacklist` mode,
+any hosts you identify as being on the `blacklist` will not be used to form
+contracts. In `whitelist` mode, only the hosts identified as being on the
+`whitelist` will be used to form contracts. In both modes, hosts that you are
+blacklisted will be filtered from your hostdb. To enable either mode, set
+`filtermode` to the desired mode and submit a list of host pubkeys as the
+corresponding `blacklist` or `whitelist`. To disable either list, the `host`
+field can be left blank (e.g. empty slice) and the `filtermode` should be set to
+`disable`.
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+**NOTE:** Enabling and disabling a filter mode can result in changes with your
+current contracts with can result in an increase in contract fee spending. For
+example, if `blacklist` mode is enabled, any hosts that you currently have
+contracts with that are also on the provide list of `hosts` will have their
+contracts replaced with non-blacklisted hosts. When `whitelist` mode is enabled,
+contracts will be replaced until there are only contracts with whitelisted
+hosts. Even disabling a filter mode can result in a change in contracts if there
+are better scoring hosts in your hostdb that were previously being filtered out.
 
-For example, if the API password is "foobar" the request header should include
 
-`Authorization: Basic OmZvb2Jhcg==`
+### Query String Parameters
+### REQUIRED
+**filtermode** | string  
+Can be either whitelist, blacklist, or disable.
 
-And for a curl call the following would be included
+**hosts** | array of string  
+Comma separated pubkeys.
 
-`--user "":<apipassword>`
+### Response
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+standard success or error response. See [standard
+responses](#standard-responses).

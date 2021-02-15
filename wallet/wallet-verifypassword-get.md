@@ -1,5 +1,25 @@
-## Success Response
-The standard response indicating the request was successfully processed is HTTP
-status code `204 No Content`. If the request was successfully processed and the
-server responded with JSON the HTTP status code is `200 OK`. Specific endpoints
-may specify other 2xx status codes on success.
+## /wallet/verifypassword [GET]
+> curl example
+
+```go
+curl -A "Uplo-Agent" "localhost:8480/wallet/verifypassword?password=<password>"
+```
+
+Takes a password and verifies if it is the password used to encrypt the wallet.
+
+### Path Parameters
+#### REQUIRED
+**password** | string  
+Password being checked.
+
+### JSON Response
+> JSON Response Example
+
+```go
+{
+  "valid": true,
+}
+```
+**valid** | boolean  
+valid indicates if the password supplied is the password used to encrypt the
+wallet.  

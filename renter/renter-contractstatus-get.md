@@ -1,36 +1,55 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /renter/contractstatus [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/renter/contractstatus?id=<filecontractid>"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+### Query String Parameters
+**id** | hash
+ID of the file contract
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+{
+  "archived":                  true, // boolean
+  "formationsweepheight":      1234, // block height
+  "contractfound":             true, // boolean
+  "latestrevisionfound",       55,   // uint64
+  "storageprooffoundatheight": 0,    // block height
+  "doublespendheight":         0,    // block height
+  "windowstart":               5000, // block height
+  "windowend":                 5555, // block height
+}
+```
+**archived** | boolean  
+Indicates whether or not this contract has been archived by the watchdog. This
+is done when a file contract's inputs are double-spent or if the storage proof
+window has already elapsed.
 
-And for a curl call the following would be included
+**formationsweepheight** | block height  
+The block height at which the renter's watchdog will try to sweep inputs from
+the formation transaction set if it hasn't been confirmed on chain yet.
 
-`--user "":<apipassword>`
+**contractfound** | boolean  
+Indicates whether or not the renter watchdog found the formation transaction set
+on chain.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**latestrevisionfound** | uint64  
+The highest revision number found by the watchdog for this contract on chain.
+
+**storageprooffoundatheight** | block height  
+The height at which the watchdog found a storage proof for this contract on
+chain.
+
+**doublespendheight** | block height  
+The height at which a double-spend for this transactions formation transaction
+was found on chain.
+
+**windowstart** | block height  
+The height at which the storage proof window for this contract starts.
+
+**windowend** | block height  
+The height at which the storage proof window for this contract ends.

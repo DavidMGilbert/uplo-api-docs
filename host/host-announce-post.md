@@ -1,36 +1,29 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/announce [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> -X POST "localhost:8480/host/announce"
+```
+> curl example with a custom netaddress
+
+```go
+curl -A "Uplo-Agent" -u "":<apipassword> -X POST "localhost:8480/host/announce?netaddress=uplohost.example.net"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Announce the host to the network as a source of storage. Generally only needs to
+be called once.
 
-For example, if the API password is "foobar" the request header should include
+Note that even after the host has been announced, it will not accept new
+contracts unless configured to do so. To configure the host to accept contracts,
+see [/host](## /host [POST]).
 
-`Authorization: Basic OmZvb2Jhcg==`
+### Query String Parameters
+### OPTIONAL
+**netaddress string** | string  
+The address to be announced. If no address is provided, the automatically
+discovered address will be used instead.
 
-And for a curl call the following would be included
+### Response
 
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+standard success or error response. See [standard
+responses](#Standard-Responses).

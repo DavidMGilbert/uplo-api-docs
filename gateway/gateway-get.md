@@ -1,36 +1,61 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /gateway [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/gateway"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+returns information about the gateway, including the list of connected peers.
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+{
+    "netaddress":"333.333.333.333:8481",  // string
+    "peers":[
+        {
+            "inbound":    false,                   // boolean
+            "local":      false,                   // boolean
+            "netaddress": "222.222.222.222:8481",  // string
+            "version":    "1.0.0",                 // string
+        },
+    ],
+    "online":           true,  // boolean
+    "maxdownloadspeed": 1234,  // bytes per second
+    "maxuploadspeed":   1234,  // bytes per second
+}
+```
+**netaddress** | string  
+netaddress is the network address of the gateway as seen by the rest of the
+network. The address consists of the external IP address and the port Uplo is
+listening on. It represents a `modules.NetAddress`.
 
-And for a curl call the following would be included
+**peers** | array  
+peers is an array of peers the gateway is connected to. It represents an array
+of `modules.Peer`s.
 
-`--user "":<apipassword>`
+**inbound** | boolean  
+inbound is true when the peer initiated the connection. This field is exposed as
+outbound peers are generally trusted more than inbound peers, as inbound peers
+are easily manipulated by an adversary.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**local** | boolean  
+local is true if the peer's IP address belongs to a local address range such as
+192.168.x.x or 127.x.x.x
+
+**netaddress** | string  
+netaddress is the address of the peer. It represents a `modules.NetAddress`.
+
+**version** | string  
+version is the version number of the peer.
+
+**online** | boolean  
+online is true if the gateway is connected to at least one peer that isn't
+local.
+
+**maxdownloadspeed** | bytes per second   
+Max download speed permitted in bytes per second
+
+**maxuploadspeed** | bytes per second   
+Max upload speed permitted in bytes per second

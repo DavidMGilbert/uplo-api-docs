@@ -1,36 +1,52 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
+# Daemon
 
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
+The daemon is responsible for starting and stopping the modules which make up
+the rest of Uplo.
 
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /daemon/alerts [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/daemon/alerts"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Returns all alerts of all severities of the Uplo instance sorted by severity from highest to lowest in `alerts` and the alerts of the Uplo instance sorted by category in `criticalalerts`, `erroralerts` and `warningalerts`.
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+{
+    "alerts": [
+    {
+      "cause": "wallet is locked",
+      "msg": "user's contracts need to be renewed but a locked wallet prevents renewal",
+      "module": "contractor",
+      "severity": "warning",
+    }
+  ],
+  "criticalalerts": [],
+  "erroralerts": [],
+  "warningalerts": [
+    {
+      "cause": "wallet is locked",
+      "msg": "user's contracts need to be renewed but a locked wallet prevents renewal",
+      "module": "contractor",
+      "severity": "warning",
+    }
+  ]
+}
+```
+**cause** | string  
+Cause is the cause for the information contained in msg if known.
 
-And for a curl call the following would be included
+**msg** | string  
+Msg contains information about an issue.
 
-`--user "":<apipassword>`
+**module** | string  
+Module is the module which caused the alert.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**severity** | string  
+Severity is either "warning", "error" or "critical" where "error" might be a
+lack of internet access and "critical" would be a lack of funds and contracts
+that are about to expire due to that.

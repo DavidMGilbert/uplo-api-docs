@@ -1,36 +1,32 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /renter/uploadedbackups [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> "localhost:8480/renter/uploadedbackups"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Lists the backups that have been uploaded to hosts.
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+[
+  {
+    "name": "foo",                             // string
+    "UID": "00112233445566778899aabbccddeeff", // string
+    "creationdate": 1234567890,                // Unix timestamp
+    "size": 8192                               // bytes
+  }
+]
+```
+**name** | string  
+The name of the backup.
 
-And for a curl call the following would be included
+**UID** | string  
+A unique identifier for the backup.
 
-`--user "":<apipassword>`
+**creationdate** | string  
+Unix timestamp of when the backup was created.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**size** Size in bytes of the backup.

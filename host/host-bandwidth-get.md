@@ -1,36 +1,29 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/bandwidth [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/host/bandwidth"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+returns the total upload and download bandwidth usage for the host
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+```go
+{
+  "download":  12345                                  // bytes
+  "upload":    12345                                  // bytes
+  "starttime": "2018-09-23T08:00:00.000000000+04:00", // Unix timestamp
+}
+```
 
-`Authorization: Basic OmZvb2Jhcg==`
+**download** | bytes  
+the total number of bytes that have been sent from the host to renters since the
+starttime.
 
-And for a curl call the following would be included
+**upload** | bytes  
+the total number of bytes that have been received by the host from renters since the
+starttime.
 
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**starttime** | Unix timestamp  
+the time at which the host started monitoring the bandwidth, since the
+bandwidth is not currently persisted this will be startup timestamp.

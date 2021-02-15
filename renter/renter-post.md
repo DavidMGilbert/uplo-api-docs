@@ -1,36 +1,28 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /renter [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> --data "period=12096&renewwindow=4032&funds=1000&hosts=50" "localhost:8480/renter"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Modify settings that control the renter's behavior.
 
-For example, if the API password is "foobar" the request header should include
+### Query String Parameters
+### REQUIRED
+When setting the allowance the Funds and Period are required. Since these are
+the two required fields, the allowance can be canceled by submitting the zero
+values for these fields.
 
-`Authorization: Basic OmZvb2Jhcg==`
+### OPTIONAL
+Any of the renter settings can be set, see fields [here](#settings)
 
-And for a curl call the following would be included
+**checkforipviolation** | boolean  
+Enables or disables the check for hosts using the same ip subnets within the
+hostdb. It's turned on by default and causes Uplo to not form contracts with
+hosts from the same subnet and if such contracts already exist, it will
+deactivate the contract which has occupied that subnet for the shorter time.
 
-`--user "":<apipassword>`
+### Response
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+standard success or error response. See [standard
+responses](#standard-responses).

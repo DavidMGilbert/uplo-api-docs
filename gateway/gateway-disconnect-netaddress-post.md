@@ -1,36 +1,24 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /gateway/disconnect/:*netaddress* [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> -X POST "localhost:8480/gateway/disconnect/123.456.789.0:8481"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+disconnects the gateway from a peer. The peer remains in the node list.
+Disconnecting from a peer does not prevent the gateway from automatically
+connecting to the peer in the future.
 
-For example, if the API password is "foobar" the request header should include
+### Path Parameters
+### REQUIRED
+netaddress is the address of the peer to connect to. It should be a reachable ip
+address and port number, of the form `IP:port`. IPV6 addresses must be enclosed
+in square brackets.
 
-`Authorization: Basic OmZvb2Jhcg==`
+**netaddress** | string  
+Example IPV4 address: 123.456.789.0:123  
+Example IPV6 address: [123::456]:789
 
-And for a curl call the following would be included
-
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+### Response
+standard success or error response. See [standard
+responses](#standard-responses).

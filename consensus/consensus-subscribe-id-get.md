@@ -1,36 +1,26 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /consensus/subscribe/:id [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/consensus/subscribe/0000000000000000000000000000000000000000000000000000000000000000"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Streams a series of consensus changes, starting from the provided change ID.
 
-For example, if the API password is "foobar" the request header should include
+### Path Parameters
+### REQUIRED
+**id** | string
+The consensus change ID to subscribe from. There are two sentinel values:
+to subscribe from the genesis block use:
+```
+0000000000000000000000000000000000000000000000000000000000000000
+```
+To skip all existing blocks and subscribe only to subsequent changes, use:
+```
+0100000000000000000000000000000000000000000000000000000000000000
+```
+In addition, each consensus change contains its own ID.
 
-`Authorization: Basic OmZvb2Jhcg==`
+### Response
 
-And for a curl call the following would be included
-
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+A concatenation of Uplo-encoded (binary) modules.ConsensusChange objects.

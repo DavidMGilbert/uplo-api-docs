@@ -1,36 +1,47 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
 
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/estimatescore [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/host/estimatescore"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Returns the estimated HostDB score of the host using its current settings,
+combined with the provided settings.
 
-For example, if the API password is "foobar" the request header should include
+### Query String Parameters
+### OPTIONAL
+See [host internal settings](#internalsettings)
+- acceptingcontracts
+- maxdownloadbatchsize
+- maxduration
+- maxrevisebatchsize
+- netaddress
+- windowsize
+- collateral
+- collateralbudget
+- maxcollateral
+- mincontractprice
+- mindownloadbandwidthprice
+- minstorageprice
+- minuploadbandwidthprice
+- ephemeralaccountexpiry
+- maxephemeralaccountbalance
+- maxephemeralaccountrisk
 
-`Authorization: Basic OmZvb2Jhcg==`
+### JSON Response
+> JSON Response Example
 
-And for a curl call the following would be included
+```go
+{
+  "estimatedscore": "123456786786786786786786786742133",  // big int
+  "conversionrate": 95  // float64
+}
+```
+**estimatedscore** | big int  
+estimatedscore is the estimated HostDB score of the host given the settings
+passed to estimatescore.
 
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**conversionrate** | float64  
+conversionrate is the likelihood given the settings passed to estimatescore that
+the host will be selected by renters forming contracts.

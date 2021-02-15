@@ -1,5 +1,21 @@
-## Success Response
-The standard response indicating the request was successfully processed is HTTP
-status code `204 No Content`. If the request was successfully processed and the
-server responded with JSON the HTTP status code is `200 OK`. Specific endpoints
-may specify other 2xx status codes on success.
+## /wallet/backup [GET]
+> curl example
+
+```go
+curl -A "Uplo-Agent" -u "":<apipassword> "localhost:8480/wallet/backup?destination=/home/wallet-settings.backup"
+```
+
+Creates a backup of the wallet settings file. Though this can easily be done
+manually, the settings file is often in an unknown or difficult to find
+location. The /wallet/backup call can spare users the trouble of needing to find
+their wallet file.
+
+### Query String Parameters
+### REQUIRED
+**destination**  
+Path to the location on disk where the backup file will be saved.
+
+### Response
+
+standard success or error response. See [standard
+responses](#standard-responses).

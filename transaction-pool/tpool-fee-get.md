@@ -1,5 +1,23 @@
-## Success Response
-The standard response indicating the request was successfully processed is HTTP
-status code `204 No Content`. If the request was successfully processed and the
-server responded with JSON the HTTP status code is `200 OK`. Specific endpoints
-may specify other 2xx status codes on success.
+## /tpool/fee [GET]
+> curl example
+
+```go
+curl -A "Uplo-Agent" "localhost:8480/tpool/fee"
+```
+
+returns the minimum and maximum estimated fees expected by the transaction pool.
+
+### JSON Response
+> JSON Response Example
+
+```go
+{
+  "minimum": "1234", // hastings / byte
+  "maximum": "5678"  // hastings / byte
+}
+```
+**minimum** | hastings / byte  
+the minimum estimated fee
+
+**maximum** | hastings / byte  
+the maximum estimated fee

@@ -1,36 +1,30 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/storage/folders/resize [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> --data "path=foo/bar&newsize=1000000000000" "localhost:8480/host/storage/folders/resize"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Grows or shrinks a storage file in the manager. The manager may not check that
+there is enough space on-disk to support growing the storasge folder, but should
+gracefully handle running out of space unexpectedly. When shrinking a storage
+folder, any data in the folder that needs to be moved will be placed into other
+storage folders, meaning that no data will be lost. If the manager is unable to
+migrate the data, an error will be returned and the operation will be stopped.
 
-For example, if the API password is "foobar" the request header should include
+### Storage Folder Limits
+See [/host/storage/folders/add](#host-storage-folders-add-post)
 
-`Authorization: Basic OmZvb2Jhcg==`
+### Query String Parameters
+### REQUIRED
+**path** | string  
+Local path on disk to the storage folder to resize.
 
-And for a curl call the following would be included
+**newsize** | bytes  
+Desired new size of the storage folder. This will be the new capacity of the
+storage folder.
 
-`--user "":<apipassword>`
+### Response
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+standard success or error response. See [standard
+responses](#standard-responses).

@@ -1,36 +1,36 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /miner/header [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> "localhost:8480/miner/header"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+provides a block header that is ready to be grinded on for work.
 
-For example, if the API password is "foobar" the request header should include
+### Byte Response
+For efficiency the header for work is returned as a raw byte encoding of the
+header, rather than encoded to JSON.
 
-`Authorization: Basic OmZvb2Jhcg==`
+Blocks are mined by repeatedly changing the nonce of the header, hashing the
+header's bytes, and comparing the resulting hash to the target. The block with
+that nonce is valid if the hash is less than the target. If none of the 2^64
+possible nonces result in a header with a hash less than the target, call
+/miner/header [GET] again to get a new block header with a different merkle
+root. The above process can then be repeated for the new block header.
 
-And for a curl call the following would be included
+The other fields can generally be ignored. The parent block ID field is the hash
+of the parent block's header. Modifying this field will result in an orphan
+block. The timestamp is the time at which the block was mined and is set by the
+Uplo Daemon. Modifying this field can result in invalid block. The merkle root is
+the merkle root of a merkle tree consisting of the timestamp, the miner outputs
+(one leaf per payout), and the transactions (one leaf per transaction).
+Modifying this field will result in an invalid block.
 
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+Field | Byte range within response | Byte range within header
+-------------- | -------------- | --------------
+target | [0-32)
+header | [32-112)
+parent block ID | [32-64) | [0-32)
+nonce | [64-72) | [32-40)
+timestamp | [72-80) | [40-48)
+merkle root | [80-112) | [48-80)

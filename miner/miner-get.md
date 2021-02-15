@@ -1,36 +1,38 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
+# Miner
 
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
+The miner provides endpoints for getting headers for work and submitting solved
+headers to the network. The miner also provides endpoints for controlling a
+basic CPU mining implementation.
 
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /miner [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/miner"
 ```
+returns the status of the miner.
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+### JSON Response
+> JSON Response Example
 
-For example, if the API password is "foobar" the request header should include
+```go
+{
+  "blocksmined":      9001,   // int
+  "cpuhashrate":      1337,   // hashes / second
+  "cpumining":        false,  // boolean
+  "staleblocksmined": 0,      // int
+}
+```
+**blocksmined** | int  
+Number of mined blocks. This value is remembered after restarting.
 
-`Authorization: Basic OmZvb2Jhcg==`
+**cpuhashrate** | hashes / second  
+How fast the cpu is hashing, in hashes per second.
 
-And for a curl call the following would be included
+**cpumining** | boolean  
+true if the cpu miner is active.
 
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**staleblocksmined** | int  
+Number of mined blocks that are stale, indicating that they are not included in
+the current longest chain, likely because some other block at the same height
+had its chain extended first.  

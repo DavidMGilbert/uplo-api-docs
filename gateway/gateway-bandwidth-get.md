@@ -1,36 +1,31 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /gateway/bandwidth [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/gateway/bandwidth"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+returns the total upload and download bandwidth usage for the gateway
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+{
+  "download":  12345                                  // bytes
+  "upload":    12345                                  // bytes
+  "starttime": "2018-09-23T08:00:00.000000000+04:00", // Unix timestamp
+}
+```
 
-And for a curl call the following would be included
+**download** | bytes  
+the total number of bytes that have been downloaded by the gateway since the
+starttime.
 
-`--user "":<apipassword>`
+**upload** | bytes  
+the total number of bytes that have been uploaded by the gateway since the
+starttime.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**starttime** | Unix timestamp  
+the time at which the gateway started monitoring the bandwidth, since the
+bandwidth is not currently persisted this will be startup timestamp.

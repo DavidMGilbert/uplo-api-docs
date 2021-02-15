@@ -1,5 +1,22 @@
-## Success Response
-The standard response indicating the request was successfully processed is HTTP
-status code `204 No Content`. If the request was successfully processed and the
-server responded with JSON the HTTP status code is `200 OK`. Specific endpoints
-may specify other 2xx status codes on success.
+## /tpool/raw [POST]
+> curl example
+
+```go
+curl -A "Uplo-Agent" --data "<raw-encoded-tset>" "localhost:8480/tpool/raw"
+```
+
+submits a raw transaction to the transaction pool, broadcasting it to the
+transaction pool's peers.
+
+### Query String Parameters
+### REQUIRED
+**parents** | string  
+JSON- or base64-encoded transaction parents
+
+**transaction** | string  
+JSON- or base64-encoded transaction
+
+### Response
+
+standard success or error response. See [standard
+responses](#standard-responses).

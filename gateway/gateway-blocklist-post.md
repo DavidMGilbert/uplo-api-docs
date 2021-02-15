@@ -1,36 +1,38 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /gateway/blocklist [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> --data '{"action":"append","addresses":["123.123.123.123","123.123.123.123","123.123.123.123"]}' "localhost:8480/gateway/blocklist"
+```
+```go
+curl -A "Uplo-Agent" -u "":<apipassword> --data '{"action":"set","addresses":[]}' "localhost:8480/gateway/blocklist"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+performs actions on the Gateway's blocklist. There are three `actions` that can
+be performed. `append` and `remove` are used for appending or removing addresses
+from the Gateway's blocklist. `set` is used to define all the addresses in the
+blocklist. If a list of addresses is provided with `set`, that list of addresses
+will become the Gateway's blocklist, replacing any blocklist that was currently
+in place. To clear the Gateway's blocklist, submit an empty list with `set`.
 
-For example, if the API password is "foobar" the request header should include
+### Path Parameters
+### REQUIRED
+**action** | string  
+this is the action to be performed on the blocklist. Allowed inputs are
+`append`, `remove`, and `set`.
 
-`Authorization: Basic OmZvb2Jhcg==`
+**addresses** | string  
+this is a comma separated list of addresses that are to be appended to or
+removed from the blocklist. If the action is `append` or `remove` this field is
+required.
 
-And for a curl call the following would be included
+### Response
+standard success or error response. See [standard
+responses](#standard-responses).
 
-`--user "":<apipassword>`
+# Host
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+The host provides storage from local disks to the network. The host negotiates
+file contracts with remote renters to earn money for storing other users' files.
+The host's endpoints expose methods for viewing and modifying host settings,
+announcing to the network, and managing how files are stored on disk.

@@ -1,36 +1,40 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /daemon/settings [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> "localhost:8480/daemon/settings"
+```
+Returns the settings for the daemon
+
+### JSON Response
+> JSON Response Example
+
+```go
+{
+  "maxdownloadspeed": 0,  // bytes per second
+  "maxuploadspeed":   0,  // bytes per second
+  "modules": { 
+    "consensus":       true,  // bool
+    "explorer":        false, // bool
+    "feemanager":      true,  // bool
+    "gateway":         true,  // bool
+    "host":            true,  // bool
+    "miner":           true,  // bool
+    "renter":          true,  // bool
+    "transactionpool": true,  // bool
+    "wallet":          true   // bool
+
+  } 
+}
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+**maxdownloadspeed** | bytes per second  
+Is the maximum download speed that the daemon can reach. 0 means there is no
+limit set.
 
-For example, if the API password is "foobar" the request header should include
+**maxuploadspeed** | bytes per second  
+Is the maximum upload speed that the daemon can reach. 0 means there is no limit
+set.
 
-`Authorization: Basic OmZvb2Jhcg==`
-
-And for a curl call the following would be included
-
-`--user "":<apipassword>`
-
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**modules** | struct  
+Is a list of the uplod modules with a bool indicating if the module was launched.

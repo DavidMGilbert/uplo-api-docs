@@ -1,36 +1,28 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
-
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/storage/folders/add [POST]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" -u "":<apipassword> --data "path=foo/bar&size=1000000000000" "localhost:8480/host/storage/folders/add"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+adds a storage folder to the manager. The manager may not check that there is
+enough space available on-disk to support as much storage as requested
 
-For example, if the API password is "foobar" the request header should include
+### Storage Folder Limits
+A host can only have 65536 storage folders in total which have to be between 256
+MiB and 16 PiB in size
 
-`Authorization: Basic OmZvb2Jhcg==`
+### Query String Parameters
+### REQUIRED
+**path** | string  
+Local path on disk to the storage folder to add.
 
-And for a curl call the following would be included
+**size** | bytes  
+Initial capacity of the storage folder. This value isn't validated so it is
+possible to set the capacity of the storage folder greater than the capacity of
+the disk. Do not do this.
 
-`--user "":<apipassword>`
+### Response
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+standard success or error response. See [standard
+responses](#standard-responses).

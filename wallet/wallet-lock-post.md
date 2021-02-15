@@ -1,5 +1,16 @@
-## Success Response
-The standard response indicating the request was successfully processed is HTTP
-status code `204 No Content`. If the request was successfully processed and the
-server responded with JSON the HTTP status code is `200 OK`. Specific endpoints
-may specify other 2xx status codes on success.
+## /wallet/lock [POST]
+> curl example
+
+```go
+curl -A "Uplo-Agent" -u "":<apipassword> -X POST "localhost:8480/wallet/lock"
+```
+
+Locks the wallet, wiping all secret keys. After being locked, the keys are
+encrypted. Queries for the seed, to send uplofunds, and related queries become
+unavailable. Queries concerning transaction history and balance are still
+available.
+
+### Response
+
+standard success or error response. See [standard
+responses](#standard-responses).

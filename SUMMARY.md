@@ -120,11 +120,11 @@
 * [/renter/workers [GET]](renter/renter-workers-get.md)
 
 ## Transaction Pool
-* [/tpool/confirmed/:id [GET]](tpool/tpool-confirmed-id-get.md)
-* [/tpool/fee [GET]](tpool/fee-get.md)
-* [/tpool/raw/:id [GET]](tpool/tpool-raw-id-get.md)
-* [/tpool/raw [POST]](tpool/tpool-raw-post.md)
-* [/tpool/transactions [GET]](tpool/tpool-transactions-get.md)
+* [/tpool/confirmed/:id [GET]](transaction-pool/tpool-confirmed-id-get.md)
+* [/tpool/fee [GET]](transaction-pool/tpool-fee-get.md)
+* [/tpool/raw/:id [GET]](transaction-pool/tpool-raw-id-get.md)
+* [/tpool/raw [POST]](transaction-pool/tpool-raw-post.md)
+* [/tpool/transactions [GET]](transaction-pool/tpool-transactions-get.md)
 
 ## Wallet
 * [/wallet [GET]](wallet/wallet-get.md)

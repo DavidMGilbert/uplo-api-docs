@@ -1,36 +1,48 @@
-# Authentication
-API authentication is enabled by default, using a password stored in a flat
-file. The location of this file is:
 
-- Linux:   `$HOME/.uplo/apipassword`
-- MacOS:   `$HOME/Library/Application Support/Uplo/apipassword`
-- Windows: `%LOCALAPPDATA%\Uplo\apipassword`
-
-
-Note that the file contains a trailing newline, which must be trimmed before
-use.
-
-> Example POST curl call with Authentication
+## /host/storage [GET]
+> curl example
 
 ```go
-curl -A "Uplo-Agent" --user "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
+curl -A "Uplo-Agent" "localhost:8480/host/storage"
 ```
 
-Authentication is HTTP Basic Authentication as described in [RFC
-2617](https://tools.ietf.org/html/rfc2617), however, the username is the empty
-string. The flag does not enforce authentication on all API endpoints. Only
-endpoints that expose sensitive information or modify state require
-authentication.
+Gets a list of folders tracked by the host's storage manager.
 
-For example, if the API password is "foobar" the request header should include
+### JSON Response
+> JSON Response Example
 
-`Authorization: Basic OmZvb2Jhcg==`
+```go
+{
+  "folders": [
+    {
+      "path":              "/home/foo/bar", // string
+      "capacity":          50000000000,     // bytes
+      "capacityremaining": 100000,          // bytes
 
-And for a curl call the following would be included
+      "failedreads":      0,  // int
+      "failedwrites":     1,  // int
+      "successfulreads":  2,  // int
+      "successfulwrites": 3,  // int
+    }
+  ]
+}
+```
+**path** | string  
+Absolute path to the storage folder on the local filesystem.
 
-`--user "":<apipassword>`
+**capacity** | bytes  
+Maximum capacity of the storage folder in bytes. The host will not store more
+than this many bytes in the folder. This capacity is not checked against the
+drive's remaining capacity. Therefore, you must manually ensure the disk has
+sufficient capacity for the folder at all times. Otherwise you risk losing
+renter's data and failing storage proofs.
 
-Authentication can be disabled by passing the `--authenticate-api=false` flag to
-uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
-to uplod.
+**capacityremaining** | bytes  
+Unused capacity of the storage folder in bytes.
+
+**failedreads, failedwrites** | int  
+Number of failed disk read & write operations. A large number of failed reads or
+writes indicates a problem with the filesystem or drive's hardware.
+
+**successfulreads, successfulwrites** | int  
+Number of successful read & write operations.  
