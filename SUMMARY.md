@@ -19,7 +19,7 @@
 ## Consensus
 * [/consensus [GET]](consensus/consensus-get.md)
 * [/consensus/blocks [GET]](consensus/consensus-blocks-get.md)
-* [/consensus/subscribe/:id [GET]](consensus/consensussubscribe-id-get.md)
+* [/consensus/subscribe/:id [GET]](consensus/consensus-subscribe-id-get.md)
 * [/consensus/validate/transactionset [POST]](consensus/consensus-validate-transactionset-post.md)
 
 ## Daemon
@@ -59,7 +59,7 @@
 * [/host/storage/folders/add [POST]](host/host-storage-folders-add-post.md)
 * [/host/storage/folders/remove [POST]](host/host-storage-folders-remove-post.md)
 * [/host/storage/folders/resize [POST]](host/host-storage-folders-resize-post.md)
-* [/host/storage/sectors/delete/:merkleroot [POST]](host/host-storage-sectors-delete-merkleroot.md)
+* [/host/storage/sectors/delete/:merkleroot [POST]](host/host-storage-sectors-delete-merkleroot-post.md)
 * [/host/edtimatescore [GET]](host/host-estimatescore-get.md)
 
 ## HostDB
@@ -101,8 +101,6 @@
 * [/renter/file/uplopath [GET]](renter/renter-file-uplopath-get.md)
 * [/renter/file/uplopath [POST]](renter/renter-file-uplopath-post.md)
 * [/renter/file/delete/uplopath [POST]](renter/renter-file-delete-uplopath-post.md)
-* [/renter/file/download/uplopath [GET]](renter/renter-file-download-uplopath-get.md)
-* [/renter/file/download/cancel [POST]](renter/renter-file-download-cancel-post.md)
 * [/renter/downloadsync/uplopath [GET]](renter/renter-downloadsync-uplopath-get.md)
 * [/renter/fuse [GET]](renter/renter-fuse-get.md)
 * [/renter/fuse/mount [POST]](renter/renter-fuse-mount-post.md)
@@ -137,7 +135,7 @@
 * [/wallet/init [POST]](wallet/wallet-init-post.md)
 * [/wallet/init/seed [POST]](wallet/wallet-init-seed-post.md)
 * [/wallet/seed [POST]](wallet/wallet-seed-post.md)
-* [/wallet/seeds [GET]](wallet/walletseeds-get.md)
+* [/wallet/seeds [GET]](wallet/wallet-seeds-get.md)
 * [/wallet/uplocoins [POST]](wallet/wallet-uplocoins-post.md)
 * [/wallet/uplofunds [POST]](wallet/wallet-uplofunds-post.md)
 * [/wallet/uplogkey [POST]](wallet/wallet-uplogkey-post.md)

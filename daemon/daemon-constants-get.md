@@ -170,5 +170,5 @@ And for a curl call the following would be included
 
 Authentication can be disabled by passing the `--authenticate-api=false` flag to
 uplod. You can change the password by modifying the password file, setting the
-`SIA_API_PASSWORD` environment variable, or passing the `--temp-password` flag
+`UPLO_API_PASSWORD` environment variable, or passing the `--temp-password` flag
 to uplod.
