@@ -111,7 +111,7 @@
 * [/renter/recoveryscan [POST]](renter/renter-recoveryscan-post.md)
 * [/renter/rename/uplopath [POST]](renter/renter-rename-uplopath-post.md)
 * [/renter/stream/uplopath [GET]](renter/renter-stream-uplopath-get.md)
-* [/renter/upload [POST]](renter/renter-upload-post.md)
+* [/renter/upload/uploadpath [POST]](renter/renter-upload-uplopath-post.md)
 * [/renter/uploadstream/uplopath [POST]](renter/renter-uploadstream-uplopath-post.md)
 * [/renter/uploadready [GET]](renter/renter-uploadready-get.md)
 * [/renter/uploads/pause [POST]](renter/renter-uploads-pause-post.md)

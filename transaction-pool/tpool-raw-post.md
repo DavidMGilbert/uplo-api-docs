@@ -18,5 +18,4 @@ JSON- or base64-encoded transaction
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

@@ -18,5 +18,4 @@ Merkleroot of the sector to delete.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

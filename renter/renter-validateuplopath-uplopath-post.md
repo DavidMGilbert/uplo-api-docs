@@ -15,4 +15,4 @@ uplopath to test.
 
 ### Response
 standard success or error response, a successful response means a valid uplopath.
-See [standard responses](#standard-responses).
+See standard responses.

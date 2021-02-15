@@ -37,5 +37,4 @@ If root is true, the provided uplopath will not be prefixed with /home/user but 
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

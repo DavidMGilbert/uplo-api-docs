@@ -36,5 +36,4 @@ paritypieces and force.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

@@ -19,5 +19,4 @@ Only the primary seed will be used for generating new addresses.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

@@ -5,8 +5,7 @@ Uplo uses semantic versioning and aims to remain backwards compatible to version
 
 API calls return either JSON or no content. Success is indicated by 2xx HTTP
 status codes, while errors are indicated by 4xx and 5xx HTTP status codes. If an
-endpoint does not specify its expected status code refer to [standard
-responses](#Standard-Responses).
+endpoint does not specify its expected status code refer to standard responses.
 
 There may be functional API calls which are not documented. These are not
 guaranteed to be supported beyond the current release, and should not be used in

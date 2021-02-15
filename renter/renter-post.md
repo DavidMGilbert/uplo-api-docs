@@ -24,5 +24,4 @@ deactivate the contract which has occupied that subnet for the shorter time.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

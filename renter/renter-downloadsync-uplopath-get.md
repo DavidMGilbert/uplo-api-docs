@@ -19,5 +19,4 @@ Location on disk that the file will be downloaded to.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

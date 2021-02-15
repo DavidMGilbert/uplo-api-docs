@@ -25,5 +25,4 @@ discovered address will be used instead.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#Standard-Responses).
+standard success or error response. See standard responses.

@@ -9,5 +9,4 @@ stops the cpu miner. Does nothing if the cpu miner is not running.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

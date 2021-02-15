@@ -19,5 +19,4 @@ flag indicating if the backup should be stored on hosts. If true,
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

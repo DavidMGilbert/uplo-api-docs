@@ -20,5 +20,4 @@ Example IPV4 address: 123.456.789.0:123
 Example IPV6 address: [123::456]:789
 
 ### Response
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

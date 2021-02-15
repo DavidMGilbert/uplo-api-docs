@@ -46,5 +46,4 @@ download will set the 'ID' field in the http response header to a unique
 identifier which can be used to cancel an async download with the
 /renter/download/cancel endpoint and retrieve a download's info from the
 download history using the /renter/downloadinfo endpoint. Apart from that the
-response is a standard success or error response. See [standard
-responses](#standard-responses).
+response is a standard success or error response. See standard responses.

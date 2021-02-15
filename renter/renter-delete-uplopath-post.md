@@ -21,5 +21,4 @@ to 'home/user/'.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

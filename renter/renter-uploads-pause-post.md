@@ -21,5 +21,4 @@ duration is how long the repairs and uploads will be paused in seconds. If no
 duration is supplied the default pause duration will be used.
 
 ### Response
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

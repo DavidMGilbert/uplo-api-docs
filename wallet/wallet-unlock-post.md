@@ -16,5 +16,4 @@ password is the same as the primary wallet seed.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

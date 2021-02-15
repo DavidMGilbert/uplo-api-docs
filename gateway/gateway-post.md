@@ -17,5 +17,4 @@ Max upload speed permitted in bytes per second
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.

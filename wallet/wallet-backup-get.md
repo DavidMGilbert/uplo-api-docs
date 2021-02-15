@@ -17,5 +17,4 @@ Path to the location on disk where the backup file will be saved.
 
 ### Response
 
-standard success or error response. See [standard
-responses](#standard-responses).
+standard success or error response. See standard responses.
