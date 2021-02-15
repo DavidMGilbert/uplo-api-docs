@@ -112,7 +112,7 @@
 * [/renter/rename/uplopath [POST]](renter/renter-rename-uplopath-post.md)
 * [/renter/stream/uplopath [GET]](renter/renter-stream-uplopath-get.md)
 * [/renter/upload [POST]](renter/renter-upload-post.md)
-* [/renter/uploadstream [POST]](renter/renter-uploadstream-post.md)
+* [/renter/uploadstream/uplopath [POST]](renter/renter-uploadstream-uplopath-post.md)
 * [/renter/uploadready [GET]](renter/renter-uploadready-get.md)
 * [/renter/uploads/pause [POST]](renter/renter-uploads-pause-post.md)
 * [/renter/uploads/resume [POST]](renter/renter-uploads-resume-post.md)
