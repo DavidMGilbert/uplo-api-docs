@@ -1,40 +1,59 @@
-# Introduction
+# Table of contents
 
-## Welcome to the Uplo Storage Platform API!
-Uplo uses semantic versioning and aims to remain backwards compatible to version v1.0.1.
+* [Introduction](README.md)
+* [Documentation Standards](introduction/documentation-standards.md)
 
-API calls return either JSON or no content. Success is indicated by 2xx HTTP
-status codes, while errors are indicated by 4xx and 5xx HTTP status codes. If an
-endpoint does not specify its expected status code refer to [standard
-responses](#Standard-Responses).
+## Standard Responses
 
-There may be functional API calls which are not documented. These are not
-guaranteed to be supported beyond the current release, and should not be used in
-production.
+* [Success Response](standard-responses/success-response.md)
+* [Error Response](standard-responses/error-response.md)
 
-**Notes:**
+## Authentication
 
-- Requests must set their User-Agent string to contain the substring
-  "Uplo-Agent".
-- By default, uplod listens on "localhost:8480". This can be changed using the
-  `--api-addr` flag when running uplod.
-- **Do not bind or expose the API to a non-loopback address unless you are aware
-  of the possible dangers.**
+* [Authentication](authentication/authentication.md)
 
-> Example GET curl call
+## Units
 
-```go
-curl -A "Uplo-Agent" -u "":<apipassword> "localhost:8480/wallet/transactions?startheight=1&endheight=250"
-```
+* [Units](units/units.md)
 
-> Example POST curl call with data
 
-```go
-curl -A "Uplo-Agent" -u "":<apipassword> --data "amount=123&destination=abcd" "localhost:8480/wallet/uplocoins"
-```
+## Environment Variables
 
-> Example POST curl call without data or authentication
+* [Environment Variables](environment-variables/environment-variables.md)
 
-```go
-curl -A "Uplo-Agent" -X POST "localhost:8480/gateway/connect/123.456.789.0:8481"
-```
+## Consensus
+
+* [/consensus [GET]](consensus/consensus-get.md)
+* [/consensus/blocks [GET]](consensus/consensus-blocks-get.md)
+* [/consensus/subscribe/:id [GET]](consensus/consensussubscribe-id-get.md)
+* [/consensus/validate/transactionset [POST]](consensus/consensus-validate-transactionset-post.md)
+
+## Daemon
+
+* [How can I contribute to Uplo?](contributing/how-can-i-contribute-to-uplo.md)
+* [Where can I learn more about Uplo?](contributing/learn-more.md)
+
+## FeeManager
+
+* [What are UploFunds?](uplofunds/what-are-uplofunds.md)
+* [How do I buy UploFunds?](uplofunds/how-do-i-buy-uplofunds.md)
+* [How to cash out UploFunds](uplofunds/how-to-cash-out-uplofunds.md)
+
+## Gateway
+
+* [Listing UploCoin on your exchange](uplo-integrations/listing-uplocoin-on-your-exchange.md)
+* [Brand guidelines for Uplo in your project or site](uplo-integrations/brand-guidelines-for-uplo-in-your-project-or-site.md)
+
+## Host
+
+## HostDB
+
+## Miner
+
+## Renter
+
+## Transaction Pool
+
+## Wallet
+
+## Versions
